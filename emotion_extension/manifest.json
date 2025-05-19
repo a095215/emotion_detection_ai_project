@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Emotion Analyzer",
+  "version": "1.0",
+  "description": "Analyze YouTube comments' emotion using AI.",
+  "permissions": ["scripting", "tabs", "activeTab"],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://www.googleapis.com/*",
+    "http://localhost:8000/*"
+  ],
+  "action": {
+    "default_title": "Analyze Comments"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/watch*"],
+      "js": ["content.js"]
+    }
+  ]
+}
