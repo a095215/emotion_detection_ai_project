@@ -1,8 +1,11 @@
-# emotion_detection_ai_project
+1.  If you want to train data with cpu, run:
 
-# progress
-5/2: learning Bidirectional Encoder Representations from Transformers
-5/2-5/10: leaning the pytorch tool for transformer model, and try to build initial environment of transformer
-5/10-5/20: transformer debug and training model
-5/20-5/25: using youtube api to implement on real-world applications
-5/25-6/3: final chech
+        python -m pip install torch torchvision torchaudio
+
+    If you want to train with gpu, run:
+
+        python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+2.  install other dependency:
+
+        python -m pip install transformers datasets tqdm huggingface_hub
