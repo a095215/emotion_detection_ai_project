@@ -9,3 +9,7 @@
 2.  install other dependency:
 
         python -m pip install transformers datasets tqdm huggingface_hub
+
+3.  install dependency for DeBERTa model:
+
+        python -m pip install tiktoken protobuf sentencepiece
