@@ -27,7 +27,7 @@ async function fetchComments(videoId) {
       if (!data.nextPageToken) break;
       nextPageToken = data.nextPageToken;
     } catch (err) {
-      console.error("❌ 抓留言失敗：", err);
+      console.error("抓留言失敗：", err);
       break;
     }
   }
@@ -39,15 +39,14 @@ async function fetchComments(videoId) {
 async function fetchAndAnalyze() {
   const videoId = extractVideoIdFromUrl();
   if (!videoId) {
-    console.warn("⚠️ 無法從網址中擷取影片 ID");
+    console.warn("無法從網址中擷取影片 ID");
     return;
   }
 
-  console.log("📥 正在從 YouTube API 抓留言...");
+  console.log("正在從 YouTube API 抓留言...");
   const comments = await fetchComments(videoId);
 
-  console.log(`📤 傳送留言，共 ${comments.length} 則`);
-  console.log("📄 前 5 則留言：", comments.slice(0, 5));
+  console.log(`留言，共 ${comments.length} 則`);
 
   fetch("http://localhost:8000/analyze", {
     method: "POST",
@@ -58,12 +57,11 @@ async function fetchAndAnalyze() {
   })
     .then(response => response.json())
     .then(data => {
-      console.log("✅ 分析結果：", data);
+      console.log("分析結果：", data);
     })
     .catch(err => {
-      console.error("❌ 傳送失敗:", err);
+      console.error("傳送失敗:", err);
     });
 }
 
-// 啟動流程
 fetchAndAnalyze();
