@@ -3,11 +3,12 @@ from torch.utils.data import DataLoader, TensorDataset, random_split
 import torch
 from torch import nn, optim
 from sklearn.metrics import accuracy_score, f1_score
-from get_fine_tuning_data import getData
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 import os
-
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from get_fine_tuning_data import getData
 # ====== 設定參數 ======
 model_name = "roberta-base"
 num_labels = 3
