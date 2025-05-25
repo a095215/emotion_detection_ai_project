@@ -19,7 +19,7 @@ batch_size = 16
 lr = 2e-5
 patience = 2  # Early stopping 條件
 validation_ratio = 0.1
-save_path = "./best_deberta_model_30000"
+save_path = "./best_deberta_model_5000"
 
 # ====== 裝置檢查 ======
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -31,7 +31,7 @@ model = AutoModelForSequenceClassification.from_pretrained(model_name, num_label
 model.to(device)
 
 # ====== 載入資料與分割 validation ======
-texts, labels = getData(30000)
+texts, labels = getData(5000)
 encodings = tokenizer(texts, truncation=True, padding=True, max_length=512, return_tensors='pt')
 labels_tensor = torch.tensor(labels)
 
@@ -153,6 +153,9 @@ for epoch in range(num_epochs):
 print("\n🏁 Training complete. Best F1 (macro):", best_f1)
 
 # ====== 畫圖與儲存 ======
+plot_dir = "analyze_5000_16"
+os.makedirs(plot_dir, exist_ok=True)
+
 plt.figure()
 plt.plot(epochs_list, train_loss_list, label="Train Loss", marker='o')
 plt.plot(epochs_list, val_loss_list, label="Val Loss", marker='o')
@@ -161,7 +164,7 @@ plt.ylabel("Loss")
 plt.title("Train vs Val Loss")
 plt.legend()
 plt.grid(True)
-plt.savefig("analyze_100000_16/loss_plot.png")
+plt.savefig("analyze_5000_16/loss_plot.png")
 
 plt.figure()
 plt.plot(epochs_list, train_acc_list, label="Train Acc", marker='o')
@@ -171,7 +174,7 @@ plt.ylabel("Accuracy")
 plt.title("Train vs Val Accuracy")
 plt.legend()
 plt.grid(True)
-plt.savefig("analyze_100000_16/accuracy_plot.png")
+plt.savefig("analyze_5000_16/accuracy_plot.png")
 
 plt.figure()
 plt.plot(epochs_list, f1_list, label="F1 Score (macro)", marker='o', color='green')
@@ -179,7 +182,7 @@ plt.xlabel("Epoch")
 plt.ylabel("F1 Score")
 plt.title("F1 Score (Macro) per Epoch")
 plt.grid(True)
-plt.savefig("analyze_100000_16/f1_plot.png")
+plt.savefig("analyze_5000_16/f1_plot.png")
 
 plt.figure()
 plt.plot(epochs_list, lr_list, label="Learning Rate", marker='o', color='purple')
@@ -187,4 +190,4 @@ plt.xlabel("Epoch")
 plt.ylabel("Learning Rate")
 plt.title("Learning Rate per Epoch")
 plt.grid(True)
-plt.savefig("analyze_100000_16/lr_plot.png")
+plt.savefig("analyze_5000_16/lr_plot.png")
