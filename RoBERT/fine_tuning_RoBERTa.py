@@ -17,8 +17,8 @@ batch_size = 8
 lr = 2e-5
 patience = 2
 validation_ratio = 0.1
-save_path = "./best_roberta_model_3000"
-plot_path = "analyze_roberta_3000_16"
+save_path = "./best_roberta_model_5000"
+plot_path = "analyze_roberta_5000_16"
 
 # ====== 裝置檢查 ======
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -30,7 +30,7 @@ model = AutoModelForSequenceClassification.from_pretrained(model_name, num_label
 model.to(device)
 
 # ====== 載入資料與分割 validation ======
-texts, labels = getData(3000)
+texts, labels = getData(5000)
 encodings = tokenizer(texts, truncation=True, padding=True, max_length=512, return_tensors='pt')
 labels_tensor = torch.tensor(labels)
 
