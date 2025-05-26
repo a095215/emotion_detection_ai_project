@@ -6,6 +6,7 @@ bert_sentiment_model/
 DeBERT/best_deberta_model/
 DeBERT/best_deberta_model_30000/
 DeBERT/best_deberta_model_5000/
+DeBERT/best_deberta_model_10000/
 DeBERT/best_deberta_model_50000/
 BERT/best_bert_model_5000/
 BERT/best_bert_model_10000/

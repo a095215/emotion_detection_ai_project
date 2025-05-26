@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import os
 from flask_cors import CORS
-from transformers import BertTokenizer, BertForSequenceClassification
+from transformers import BertForSequenceClassification, RobertaForSequenceClassification, DebertaV2ForSequenceClassification, BertTokenizer, RobertaTokenizer, AutoTokenizer
 import torch
 import threading
 import argparse
@@ -44,40 +44,40 @@ match args.model:
     case "roberta":
         match args.size:
             case "5000":
-                model = BertForSequenceClassification.from_pretrained("dfafdsaf/roberta_sentiment_5000").to(device)
+                model = RobertaForSequenceClassification.from_pretrained("dfafdsaf/roberta_sentiment_5000").to(device)
                 tokenizer = BertTokenizer.from_pretrained("dfafdsaf/roberta_sentiment_5000")
                 print("roberta_sentiment_5000")
             case "10000":
-                model = BertForSequenceClassification.from_pretrained("dfafdsaf/roberta_sentiment_10000").to(device)
-                tokenizer = BertTokenizer.from_pretrained("dfafdsaf/roberta_sentiment_10000")
+                model = RobertaForSequenceClassification.from_pretrained("dfafdsaf/roberta_sentiment_10000").to(device)
+                tokenizer = RobertaTokenizer.from_pretrained("dfafdsaf/roberta_sentiment_10000")
                 print("roberta_sentiment_10000")
             case "30000":
-                model = BertForSequenceClassification.from_pretrained("dfafdsaf/roberta_sentiment_30000").to(device)
-                tokenizer = BertTokenizer.from_pretrained("dfafdsaf/roberta_sentiment_30000")
+                model = RobertaForSequenceClassification.from_pretrained("dfafdsaf/roberta_sentiment_30000").to(device)
+                tokenizer = RobertaTokenizer.from_pretrained("dfafdsaf/roberta_sentiment_30000")
                 print("roberta_sentiment_30000")
             case "50000":
-                model = BertForSequenceClassification.from_pretrained("dfafdsaf/roberta_sentiment_50000").to(device)
-                tokenizer = BertTokenizer.from_pretrained("dfafdsaf/roberta_sentiment_50000")
+                model = RobertaForSequenceClassification.from_pretrained("dfafdsaf/roberta_sentiment_50000").to(device)
+                tokenizer = RobertaTokenizer.from_pretrained("dfafdsaf/roberta_sentiment_50000")
                 print("roberta_sentiment_50000")
             case _:
                 print("error")
     case "deberta":
         match args.size:
             case "5000":
-                model = BertForSequenceClassification.from_pretrained("dfafdsaf/deberta_sentiment_5000").to(device)
-                tokenizer = BertTokenizer.from_pretrained("dfafdsaf/deberta_sentiment_5000")
+                model = DebertaV2ForSequenceClassification.from_pretrained("dfafdsaf/deberta_sentiment_5000").to(device)
+                tokenizer = AutoTokenizer.from_pretrained("dfafdsaf/deberta_sentiment_5000")
                 print("deberta_sentiment_5000")
             case "10000":
-                model = BertForSequenceClassification.from_pretrained("dfafdsaf/deberta_sentiment_10000").to(device)
-                tokenizer = BertTokenizer.from_pretrained("dfafdsaf/deberta_sentiment_10000")
+                model = DebertaV2ForSequenceClassification.from_pretrained("dfafdsaf/deberta_sentiment_10000").to(device)
+                tokenizer = AutoTokenizer.from_pretrained("dfafdsaf/deberta_sentiment_10000")
                 print("deberta_sentiment_10000")
             case "30000":
-                model = BertForSequenceClassification.from_pretrained("dfafdsaf/deberta_sentiment_30000").to(device)
-                tokenizer = BertTokenizer.from_pretrained("dfafdsaf/deberta_sentiment_30000")
+                model = DebertaV2ForSequenceClassification.from_pretrained("dfafdsaf/deberta_sentiment_30000").to(device)
+                tokenizer = AutoTokenizer.from_pretrained("dfafdsaf/deberta_sentiment_30000")
                 print("deberta_sentiment_30000")
             case "50000":
-                model = BertForSequenceClassification.from_pretrained("dfafdsaf/deberta_sentiment_50000").to(device)
-                tokenizer = BertTokenizer.from_pretrained("dfafdsaf/deberta_sentiment_50000")
+                model = DebertaV2ForSequenceClassification.from_pretrained("dfafdsaf/deberta_sentiment_50000").to(device)
+                tokenizer = AutoTokenizer.from_pretrained("dfafdsaf/deberta_sentiment_50000")
                 print("deberta_sentiment_50000")
             case _:
                 print("error")

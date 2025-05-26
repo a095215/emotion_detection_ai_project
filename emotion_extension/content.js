@@ -1,4 +1,4 @@
-const API_KEY = "your_youtube_api_key";  // ⬅️ 替換為你的 YouTube API 金鑰
+const API_KEY = "";  // ⬅️ 替換為你的 YouTube API 金鑰
 
 // 從目前網址中擷取影片 ID
 function extractVideoIdFromUrl() {
