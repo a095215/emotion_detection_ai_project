@@ -1,4 +1,4 @@
-const API_KEY = "";  // ⬅️ 替換為你的 YouTube API 金鑰
+const API_KEY = "your_youtube_api_key";  // ⬅️ 替換為你的 YouTube API 金鑰
 
 // 從目前網址中擷取影片 ID
 function extractVideoIdFromUrl() {
@@ -35,7 +35,7 @@ async function fetchComments(videoId) {
   return comments;
 }
 
-function insertResultPanel(result, isPartial = false) {
+function insertResultPanel(result, count) {
   if (document.getElementById("emotion-panel")) {
     document.getElementById("emotion-panel").remove();
   }
@@ -54,7 +54,7 @@ function insertResultPanel(result, isPartial = false) {
   panel.style.fontFamily = "Arial, sans-serif";
 
   const title = document.createElement("h4");
-  title.textContent = isPartial ? "部分情緒分析結果" : "完整情緒分析結果";
+  title.textContent = `情緒分析結果（已分析 ${count} 則）`;
   title.style.marginTop = "0";
   panel.appendChild(title);
 
@@ -66,6 +66,7 @@ function insertResultPanel(result, isPartial = false) {
 
   document.body.appendChild(panel);
 }
+
 
 async function fetchAndAnalyze() {
   const videoId = extractVideoIdFromUrl();
@@ -85,39 +86,34 @@ async function fetchAndAnalyze() {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ comments: comments })
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log("部分分析結果：", data.result);
-      insertResultPanel(data.result, data.partial);
-
-      if (data.partial) {
-        pollFullResult();
-      }
-    })
-    .catch(err => {
-      console.error("傳送失敗:", err);
-    });
+  });
+  pollFullResult();
 }
 
 function pollFullResult() {
   const intervalId = setInterval(() => {
-    fetch("http://localhost:8000/full_result")
+    fetch("http://localhost:8000/get_result")
       .then(response => response.json())
       .then(data => {
-        if (data.partial === false) {
-          console.log("完整分析結果：", data.result);
-          insertResultPanel(data.result, false);
-          clearInterval(intervalId);
-        } else {
-          console.log("完整分析結果尚未準備好");
-        }
-      })
-      .catch(err => {
-        console.error("輪詢完整結果失敗:", err);
-        clearInterval(intervalId);
+
+        insertResultPanel(data.result, data.count);
+        if (data.isEnd) clearInterval(intervalId);
       });
-  }, 5000);
+
+      //   if (data.partial === false) {
+      //     console.log("完整分析結果：", data.result);
+      //     insertResultPanel(data.result, false);
+      //     clearInterval(intervalId);
+      //   } else {
+      //     console.log("完整分析結果尚未準備好");
+      //   }
+      // })
+      // .catch(err => {
+      //   console.error("輪詢完整結果失敗:", err);
+      //   clearInterval(intervalId);
+      // });
+
+  }, 1000);
 }
 
 fetchAndAnalyze();
