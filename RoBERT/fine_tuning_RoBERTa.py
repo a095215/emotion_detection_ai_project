@@ -9,7 +9,7 @@ import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from get_fine_tuning_data import getData
-# ====== 設定參數 ======
+
 model_name = "roberta-base"
 num_labels = 3
 num_epochs = 10
@@ -20,16 +20,16 @@ validation_ratio = 0.1
 save_path = "./best_roberta_model_5000"
 plot_path = "analyze_roberta_5000_16"
 
-# ====== 裝置檢查 ======
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 
-# ====== 載入模型與 tokenizer ======
+
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels)
 model.to(device)
 
-# ====== 載入資料與分割 validation ======
+
 texts, labels = getData(5000)
 encodings = tokenizer(texts, truncation=True, padding=True, max_length=512, return_tensors='pt')
 labels_tensor = torch.tensor(labels)
@@ -42,14 +42,14 @@ train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=batch_size)
 
-# ====== Optimizer 與 Scheduler ======
+
 optimizer = optim.AdamW(model.parameters(), lr=lr)
 total_steps = len(train_loader) * num_epochs
 warmup_steps = int(0.1 * total_steps)
 
 scheduler = get_scheduler("linear", optimizer=optimizer, num_warmup_steps=warmup_steps, num_training_steps=total_steps)
 
-# ====== 記錄每個 epoch 的資訊 ======
+
 epochs_list = []
 train_loss_list = []
 val_loss_list = []
@@ -58,7 +58,7 @@ val_acc_list = []
 f1_list = []
 lr_list = []
 
-# ====== 訓練 + early stopping ======
+
 best_f1 = 0
 patience_counter = 0
 
@@ -88,7 +88,7 @@ for epoch in range(num_epochs):
     avg_train_loss = train_loss / len(train_loader)
     train_acc = correct_train / total_train
 
-    # ====== 驗證階段 ======
+
     model.eval()
     val_loss = 0
     correct_val = 0
@@ -126,7 +126,7 @@ for epoch in range(num_epochs):
     print(f"F1 (macro): {val_f1:.4f}, LR: {lr_list[-1]:.6f}")
 
     if val_f1 > best_f1:
-        print("\n✅ New best model found. Saving...")
+        print("\n save model")
         best_f1 = val_f1
         patience_counter = 0
         model.save_pretrained(save_path)
@@ -134,12 +134,12 @@ for epoch in range(num_epochs):
     else:
         patience_counter += 1
         if patience_counter >= patience:
-            print("\n⏹️ Early stopping triggered.")
+            print("\n Early stopping")
             break
 
-print("\n🏁 Training complete. Best F1 (macro):", best_f1)
+print("\n Best F1 (macro):", best_f1)
 
-# ====== 畫圖與儲存 ======
+
 os.makedirs(plot_path, exist_ok=True)
 
 plt.figure()

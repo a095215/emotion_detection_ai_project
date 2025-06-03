@@ -1,3 +1,5 @@
+# Environment
+
 1.  If you want to train data with cpu, run:
 
         python -m pip install torch torchvision torchaudio
@@ -24,3 +26,15 @@
 5.  activate extension
 
     a. 再瀏覽器 manage extension 裡新增 emtion_extension 並啟動
+
+<br><br><br><br>
+
+# Result
+
+| Model   | Accuracy | F1 Score (Macro) |
+| ------- | -------- | ---------------- |
+| BERT    | 0.7412   | 0.7406           |
+| RoBERTa | 0.7386   | 0.7384           |
+| DeBERTa | 0.7088   | 0.7097           |
+
+The detailed data charts can be found in the BERT, RoBERTa, and DeBERTa folders.

@@ -87,7 +87,7 @@ match args.model:
 
 model.eval()
 
-# 全局變數儲存完整分析結果
+
 latest_full_result = None
 
 def analyze_comments(comments):
